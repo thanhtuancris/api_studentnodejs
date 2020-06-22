@@ -7,15 +7,11 @@ var ictu = tnu.Open("ICTU");
 
 module.exports = {
     login: function (req, res) {
-        var username = req.body.username;
-        var password = req.body.password;
-        username = username || false;
-        password = password || false;
-        ictu.Login(username, password).then(function (session) {
+        ictu.Login(req.body.username, req.body.password).then(function (session) {
             if (session) {
                 var newToken = jwt.sign({
-                    username: username,
-                    password: password
+                    username: req.body.username,
+                    password: req.body.password
                 }, fs.readFileSync('primary.key'));
 
                 ictu.GetProfile().then(function (data) {
@@ -26,7 +22,7 @@ module.exports = {
                             Profile: data
                         },
                     });
-    
+                    newToken ='';
                 }, function (err) {
                     res.json({
                         status: "error",
@@ -48,7 +44,15 @@ module.exports = {
     },
     semester: function (req, res) {
         newToken = req.headers['token'];
-        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        
+        try{
+            var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        }catch(err){
+            res.json({
+                status: "error",
+                message: "Token lỗi, vui lòng kiểm tra lại",
+            });
+        }
         var username = decoded.username;
         var password = decoded.password;
         ictu.Login(username, password).then(function (session) {

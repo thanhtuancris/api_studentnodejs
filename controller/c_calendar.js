@@ -8,7 +8,14 @@ var ictu = tnu.Open("ICTU");
 module.exports = {
     timetable: function (req, res) {
         newToken = req.headers['token'];
-        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        try{
+            var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        }catch(err){
+            res.json({
+                status: "error",
+                message: "Token lỗi, vui lòng kiểm tra lại",
+            });
+        }
         var username = decoded.username;
         var password = decoded.password;
         var semester = req.body.semester;
@@ -32,7 +39,14 @@ module.exports = {
     },
     examtable: function (req, res) {
         newToken = req.headers['token'];
-        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        try{
+            var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        }catch(err){
+            res.json({
+                status: "error",
+                message: "Token lỗi, vui lòng kiểm tra lại",
+            });
+        }
         var username = decoded.username;
         var password = decoded.password;
         var semester = req.body.semester;
