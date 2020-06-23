@@ -76,22 +76,22 @@ module.exports = {
             });
         });
     },
-    // mark: function (req, res) {
-    //     newToken = req.headers['token'];
-    //     var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
-    //     var username = decoded.username;
-    //     var password = decoded.password;
-    //     ictu.Login(username, password).then(function (session) {
-    //         if (session) {
-    //             ictu.GetMarkTable().then(function (data) {
-    //                 res.json({
-    //                     status: "success",
-    //                     message: data,
-    //                 });
-    //             }, console.log);
-    //         }
-    //     }, function (err) {
-    //         console.log(err);
-    //     });
-    // }
+    mark: function (req, res) {
+        newToken = req.headers['token'];
+        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        var username = decoded.username;
+        var password = decoded.password;
+        ictu.Login(username, password).then(function (session) {
+            if (session) {
+                ictu.GetMarkTable().then(function (data) {
+                    res.json({
+                        status: "success",
+                        message: data,
+                    });
+                }, console.log);
+            }
+        }, function (err) {
+            console.log(err);
+        });
+    }
 }
