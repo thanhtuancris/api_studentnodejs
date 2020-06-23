@@ -1,4 +1,4 @@
-const tnu = require('tnucore');
+const tnu = require('sscores');
 const fs = require('fs');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
