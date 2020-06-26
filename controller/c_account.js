@@ -93,5 +93,42 @@ module.exports = {
         }, function (err) {
             console.log(err);
         });
+    },
+    NotiICTU: function (req, res) {
+        newToken = req.headers['token'];
+        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        var username = decoded.username;
+        var password = decoded.password;
+        ictu.Login(username, password).then(function (session) {
+            if (session) {
+                ictu.GetNews().then(function (data) {
+                    res.json({
+                        status: "success",
+                        message: data,
+                    });
+                }, console.log);
+            }
+        }, function (err) {
+            console.log(err);
+        });
+    },
+    ContentnotiICTU: function (req, res) {
+        newToken = req.headers['token'];
+        var decoded = jwt.verify(newToken, fs.readFileSync('primary.key'));
+        var username = decoded.username;
+        var password = decoded.password;
+        var id = req.body.id;
+        ictu.Login(username, password).then(function (session) {
+            if (session) {
+                ictu.GetNewsDetail(id).then(function (data) {
+                    res.json({
+                        status: "success",
+                        message: data,
+                    });
+                }, console.log);
+            }
+        }, function (err) {
+            console.log(err);
+        });
     }
 }
