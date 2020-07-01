@@ -2,7 +2,7 @@ const tnu = require('sscores');
 const fs = require('fs');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
-
+const request = require ('request');
 var ictu = tnu.Open("ICTU");
 
 module.exports = {
@@ -130,5 +130,50 @@ module.exports = {
         }, function (err) {
             console.log(err);
         });
-    }
+    },
+    markExtracurricular: function (req, res) {
+
+        ids = req.body.ids;
+        var headers = {
+            'hostname' : "sinhvien.ictu.edu.vn",
+        };
+        var bodys = {
+            'ids' : ids,
+        };
+        getImage = {
+            url: 'https://api.dhdt.vn/activity/student-score',
+            method: 'POST',
+            headers: headers,
+            body: bodys,
+        }
+        request(getImage, function (error, response, body ) {
+            if (!error && response.statusCode == 200) {
+                var parsedData = JSON.parse(body);
+                var arrayData = parsedData.info.list;
+                console.log(arrayData);
+                // var total = parsedData.info.total;
+                // var waiting = parsedData.info.waiting;
+                // var class_s = parsedData.info.unit_full_name;
+                // var name_s = parsedData.info.full_name;
+                // var id_s = parsedData.info.ids;
+                // res.json({
+                //     status: "success",
+                //     message: {
+                //         total: total,
+                //         waiting: waiting,
+                //         class_s: class_s,
+                //         name_s: name_s,
+                //         id_s: id_s,
+
+                //     },
+                // });
+                // arrayData.forEach(function(index){
+                //     var id = index.idn;
+                //     var title = index.title;
+                //     var status = index.accept;
+                //     var score_s = index.score;
+                // });
+            }
+        });
+    },
 }

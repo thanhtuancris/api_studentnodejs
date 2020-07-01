@@ -5,4 +5,5 @@ module.exports = function(app){
     app.route('/api/mark').post(ctrAccount.mark);
     app.route('/api/notiictu').post(ctrAccount.NotiICTU);
     app.route('/api/contentnoti').post(ctrAccount.ContentnotiICTU);
+    app.route('/api/makr_extra').post(ctrAccount.markExtracurricular);
 }
